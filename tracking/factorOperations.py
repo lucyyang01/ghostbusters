@@ -102,7 +102,28 @@ def joinFactors(factors: List[Factor]):
 
 
     "*** YOUR CODE HERE ***"
-    raiseNotDefined()
+    #return a new factor whose prob entries are the product of corresponding rows of input factor
+    unconditioned = set()
+    conditioned = set()
+    for factor in factors:
+        print(factor)
+        print(factor.conditionedVariables())
+        print(factor.unconditionedVariables())
+        conditioned.update(factor.conditionedVariables())
+        unconditioned.update(factor.unconditionedVariables())
+        # print(type(factor))
+        # print(factor)
+        # print("CONDITION VARS")
+        # print(factor.conditionedVariables())
+        # print("UNCONDITION VARS")
+        # print(factor.unconditionedVariables())
+        # #print(factor.getProbability(factor.getAllPossibleAssignmentDicts()[0]))
+        # print(factor.getAllPossibleAssignmentDicts())
+    print(unconditioned)
+    print(conditioned)
+
+    #print(factors[0].unconditionedVariables())
+
     "*** END YOUR CODE HERE ***"
 
 ########### ########### ###########
