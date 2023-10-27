@@ -61,7 +61,33 @@ def constructBayesNet(gameState: hunters.GameState):
     variableDomainsDict = {}
 
     "*** YOUR CODE HERE ***"
-    raiseNotDefined()
+    variables.extend([PAC, GHOST0, GHOST1, OBS0, OBS1])
+    edges.extend([(PAC, OBS0), (GHOST0, OBS0), (PAC, OBS1), (GHOST1, OBS1)])
+    all_positions = []
+    for x in range(X_RANGE):
+        for y in range(Y_RANGE):
+            all_positions.append((x, y))
+    variableDomainsDict[PAC] = all_positions
+    variableDomainsDict[GHOST0] = all_positions
+    variableDomainsDict[GHOST1] = all_positions
+    max_dist = manhattanDistance((0, 0), (X_RANGE, Y_RANGE))
+    variableDomainsDict[OBS0] = list(range(max_dist + MAX_NOISE - 1))
+    variableDomainsDict[OBS1] = list(range(max_dist + MAX_NOISE - 1))
+    # obs0_arr = []
+    # for pac_position in variableDomainsDict[PAC]:
+    #     for ghost0_position in variableDomainsDict[GHOST0]:
+    #         mdist = manhattanDistance(pac_position, ghost0_position)
+    #         if mdist > 0 and mdist in range(mdist - MAX_NOISE, mdist + MAX_NOISE):
+    #             obs0_arr.append(mdist);
+    # obs1_arr = []
+    # for pac_position in variableDomainsDict[PAC]:
+    #     for ghost1_position in variableDomainsDict[GHOST1]:
+    #         mdist = manhattanDistance(pac_position, ghost1_position)
+    #         if mdist > 0 and mdist in range(mdist - MAX_NOISE, mdist + MAX_NOISE):
+    #             obs1_arr.append(mdist);
+    # print(edges)
+    # print(variableDomainsDict)
+    # print(variables)
     "*** END YOUR CODE HERE ***"
 
     net = bn.constructEmptyBayesNet(variables, edges, variableDomainsDict)
