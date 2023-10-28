@@ -103,27 +103,68 @@ def joinFactors(factors: List[Factor]):
 
     "*** YOUR CODE HERE ***"
     #return a new factor whose prob entries are the product of corresponding rows of input factor
-    unconditioned = set()
-    conditioned = set()
+
+    # print(factors[0].unconditionedVariables())
+    # unconditioned = 
+    # initial_condition = [variable in f]
+    # for factor in factors:
+    #     unconditioned = Factor.unconditionedVariables
+    # for factor in factors:
+
+    #print(factors)
+
+    # for factor in factors:
+    #     probability = 
+
+    # cond = set()
+    # uncond = set()
+    # for factor in factors:
+    #     cond.update(factor.conditionedVariables())
+    #     uncond.update(factor.unconditionedVariables())
+    # initial_condition = cond.union(uncond)
+    # # print(initial_condition)
+    # left = set()
+    # #domain = set()
+    # probabilities = [] 
+    # #    def setProbability(self, assignmentDict, probability):
+    # #    def getProbability(self, assignmentDict):
+
+    # for factor in factors:
+    #     #print("here")
+    #     left.update(factor.unconditionedVariables())
+    #     initial_condition = initial_condition.difference(factor.unconditionedVariables())
+    #     # print(factor.getAllPossibleAssignmentDicts())
+    #     # print(factor.variableDomainsDict())
+    #     domain = factor.variableDomainsDict()
+    #     for i in range(len(factor.getAllPossibleAssignmentDicts())):
+    #         probabilities[i] *= factor.getProbability(factor.getAllPossibleAssignmentDicts[])
+    # right = initial_condition
+    # #print("here", domain)
+    # #return Factor(left, right, domain)
+    # for assignment in Factor(left, right, domain):
+    #     print(assignment)
+    
+    #for combination in new_factor.getAllPossibleAssignmentDicts():
+
+    #print(new_factor)
+
     for factor in factors:
-        print(factor)
-        print(factor.conditionedVariables())
-        print(factor.unconditionedVariables())
-        conditioned.update(factor.conditionedVariables())
-        unconditioned.update(factor.unconditionedVariables())
-        # print(type(factor))
         # print(factor)
-        # print("CONDITION VARS")
-        # print(factor.conditionedVariables())
-        # print("UNCONDITION VARS")
-        # print(factor.unconditionedVariables())
-        # #print(factor.getProbability(factor.getAllPossibleAssignmentDicts()[0]))
-        # print(factor.getAllPossibleAssignmentDicts())
-    print(unconditioned)
-    print(conditioned)
+        # print(factor.variableDomainsDict())
+        #print(factor.getAllPossibleAssignmentDicts())
+        all_probs = []
+        print(factor.getProbability(factor.getAllPossibleAssignmentDicts()))
+        for assignment in factor.getAllPossibleAssignmentDicts():
+            print(factor.getProbability(assignment))
+            print(assignment)
+            #all_probs.append(factor.getProbability(assignment))
+        print(factor.variableDomainsDict.val)
 
-    #print(factors[0].unconditionedVariables())
 
+
+    # print(right)
+    # print(left)
+    #return Factor(left,right, domain)
     "*** END YOUR CODE HERE ***"
 
 ########### ########### ###########
