@@ -102,51 +102,32 @@ def joinFactors(factors: List[Factor]):
 
 
     "*** YOUR CODE HERE ***"
-   #return a new factor whose prob entries are the product of corresponding rows of input factor
-
-    # print(factors[0].unconditionedVariables())
-    # unconditioned = 
-    # initial_condition = [variable in f]
-    # for factor in factors:
-    #     unconditioned = Factor.unconditionedVariables
-    # for factor in factors:
-
-    #print(factors)
-
-    # for factor in factors:
-    #     probability = 
-
+    # get conditional, unconditional variables
     cond = set()
     uncond = set()
     for factor in factors:
         cond.update(factor.conditionedVariables())
         uncond.update(factor.unconditionedVariables())
+
     initial_condition = cond.union(uncond)
-    # print(initial_condition)
     left = set()
     factorList = [item for item in factors]
     domain = factorList[0].variableDomainsDict()
     
-    probabilities = 1 
-    #    def setProbability(self, assignmentDict, probability):
-    #    def getProbability(self, assignmentDict):
-
     for factor in factors:
-        
         left.update(factor.unconditionedVariables())
         initial_condition = initial_condition.difference(factor.unconditionedVariables())
-        
         domain = factor.variableDomainsDict()
         
     right = initial_condition
     
     result = Factor(left, right, domain)
     assignments = result.getAllPossibleAssignmentDicts()
+    # populate factor probabilities
     for assignment in assignments:
         probability = 1
         for factor in factors:
             probability = probability * factor.getProbability(assignment)
-
         result.setProbability(assignment, probability)
     return result
     "*** END YOUR CODE HERE ***"
