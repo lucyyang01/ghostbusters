@@ -161,6 +161,7 @@ def eliminateWithCallTracking(callTrackingList=None):
         Factor.variableDomainsDict
         """
         # autograder tracking -- don't remove
+        print("here")
         if not (callTrackingList is None):
             callTrackingList.append(('eliminate', eliminationVariable))
 
@@ -180,8 +181,31 @@ def eliminateWithCallTracking(callTrackingList=None):
                     "unconditionedVariables: " + str(factor.unconditionedVariables()))
 
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        
+        #sum all of the entries in the Factor which only differ in the value of the variable being eliminated.
+        #elimination ariable is an unconditioned variable
+
+        print(factor, "elimination var", eliminationVariable)
+        left_side = factor.unconditionedVariables()
+        left_side.remove(eliminationVariable)
+        print("left -side", left_side)         
+        result = Factor(left_side, factor.conditionedVariables(), factor.variableDomainsDict())
+        # print("here", result.getAllPossibleAssignmentDicts())
+        for eliminating_assignments in result.getAllPossibleAssignmentDicts():
+            #print("here", eliminating_assignments)
+            probability = 0
+            for varValue in factor.variableDomainsDict()[eliminationVariable]:
+                full_assignment = eliminating_assignments
+                full_assignment[eliminationVariable] = varValue
+                #print("variable", varValue)
+                probability = probability + factor.getProbability(full_assignment)
+            result.setProbability(eliminating_assignments, probability)
+
+
+            
+
         "*** END YOUR CODE HERE ***"
+        return result
 
     return eliminate
 
