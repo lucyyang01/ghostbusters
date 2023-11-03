@@ -341,9 +341,18 @@ class DiscreteDistribution(dict):
         {}
         """
         "*** YOUR CODE HERE ***"
-        for key in self.keys:
-            self[key] /= self.total()
-            return self
+        # print("non-normalized",self)
+        # all = list(self.items())
+        # keys = [x[0] for x in all]
+        # print(self.keys())
+        if(self.total() <= 0):
+            return
+        for key in self.keys():
+            value = (self[key] / self.total()) 
+            self[key] = value
+        # print("normalized",self)
+        
+        
         "*** END YOUR CODE HERE ***"
 
     def sample(self):
@@ -369,11 +378,12 @@ class DiscreteDistribution(dict):
         """
         "*** YOUR CODE HERE ***"
         #draw a random sample from distribution
+        self.normalize()
         all = list(self.items())
         keys = [x[0] for x in all]
         weights = []
         for i in range(len(keys)):
-            freq = dict.get(keys[i])
+            freq = self[keys[i]]
             weight = freq / self.total()
             weights.append(weight)
 
@@ -463,7 +473,7 @@ class InferenceModule:
             return 0
         trueDistance = manhattanDistance(pacmanPosition, ghostPosition)
         #print("here",busters.getObservationProbability(noisyDistance, trueDistance))
-        return  busters.getObservationProbability(noisyDistance, trueDistance)
+        return busters.getObservationProbability(noisyDistance, trueDistance)
         "*** END YOUR CODE HERE ***"
 
 
@@ -578,9 +588,17 @@ class ExactInference(InferenceModule):
         position is known.
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        pacmanPosition = gameState.getPacmanPosition()
+        jailPosition = self.getJailPosition()
+        for position in self.allPositions:
+            #update belief based on sensor reading
+            value = self.getObservationProb(observation, pacmanPosition, position, jailPosition)
+            self.beliefs[position] *= value
+            # print("belief iteration", self.beliefs)
         "*** END YOUR CODE HERE ***"
+        #print("not normalized",self.beliefs)
         self.beliefs.normalize()
+        #print("normalized",self.beliefs)
     
     ########### ########### ###########
     ########### QUESTION 7  ###########
