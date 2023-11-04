@@ -345,10 +345,11 @@ class DiscreteDistribution(dict):
         # all = list(self.items())
         # keys = [x[0] for x in all]
         # print(self.keys())
-        if(self.total() <= 0):
+        total = self.total()
+        if(total <= 0):
             return
         for key in self.keys():
-            value = (self[key] / self.total()) 
+            value = (self[key] / total) 
             self[key] = value
         # print("normalized",self)
         
