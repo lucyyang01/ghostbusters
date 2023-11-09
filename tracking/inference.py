@@ -13,6 +13,7 @@
 
 
 import random
+import util
 import itertools
 from typing import List, Dict, Tuple
 import busters
@@ -615,7 +616,16 @@ class ExactInference(InferenceModule):
         current position is known.
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        newBeliefs = util.Counter()
+
+        for prevPos, prevProb in self.beliefs.items():
+            distribution = self.getPositionDistribution(self.setGhostPosition(gameState, prevPos, self.index), prevPos)
+            for newPos, newProb in distribution.items():
+                newBeliefs[newPos] += prevProb*newProb*10**7
+        newBeliefs.normalize()
+        self.beliefs = newBeliefs
+        
+
         "*** END YOUR CODE HERE ***"
 
     def getBeliefDistribution(self):
