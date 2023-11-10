@@ -700,19 +700,30 @@ class ParticleFilter(InferenceModule):
         
         jailPosition = self.getJailPosition()
         pacmanPosition = gameState.getPacmanPosition()
-        beliefs = DiscreteDistribution()
-        for particle in self.particles:
-            beliefs[particle] += 1
-        beliefs.normalize()
-        print(beliefs)
+        
+        # for particle in self.particles:
+        #     beliefs[particle] += 1
+        # beliefs.normalize()
+        # print(beliefs)
         # for pos in self.legalPositions:
         #     beliefs[pos] = 1
         #     weight = self.getObservationProb(observation, pacmanPosition, pos, jailPosition)
         #     beliefs[pos] *= weight
-        # for particle in self.particles:
-        #     weight = self.getObservationProb(observation, pacmanPosition, particle, jailPosition)
-        #     beliefs[particle] *= weight
+        weightsDistribution = DiscreteDistribution()
+        for particle in self.particles:
+            weight = self.getObservationProb(observation, pacmanPosition, particle, jailPosition)
+            weightsDistribution[particle] += weight
         
+        newParticles = []
+        if(weightsDistribution.total() == 0):
+            self.initializeUniformly(gameState)
+        else:
+            for i in range(len(self.particles)):
+                newParticles.append(weightsDistribution.sample()) 
+            #.normalize()
+            # self.particles = newParticles
+            # beliefs = self.getBeliefDistribution()
+            self.particles = newParticles
         #weight = probability of the observation given pacman, jail, particle
         #count all positions in particles list, multiply by weight, set bveliefs 
 
@@ -722,17 +733,7 @@ class ParticleFilter(InferenceModule):
 
         #print("after for loop",beliefs)
         # weights.normalize()
-        # if(beliefs.total() == 0):
-        #     self.initializeUniformly(gameState)
-        #     return
-        # else:
-        #     newParticles = list()
-        #     for i in range(len(beliefs)):
-        #         newParticles.append(beliefs.sample()) 
-        #     #.normalize()
-        #     self.particles = newParticles
-            #beliefs = self.getBeliefDistribution()
- 
+        
         """
         for position in self.allPositions:
             #update belief based on sensor reading
