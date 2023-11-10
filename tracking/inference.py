@@ -388,8 +388,8 @@ class DiscreteDistribution(dict):
             freq = self[keys[i]]
             weight = freq / self.total()
             weights.append(weight)
-
-        rand_sample = random.choices(keys, weights, 1)
+        # print("keys: ",keys)
+        rand_sample = random.choices(keys, weights)
         return rand_sample[0]
         "*** END YOUR CODE HERE ***"
 
@@ -596,7 +596,6 @@ class ExactInference(InferenceModule):
             #update belief based on sensor reading
             value = self.getObservationProb(observation, pacmanPosition, position, jailPosition)
             self.beliefs[position] *= value
-            # print("belief iteration", self.beliefs)
         "*** END YOUR CODE HERE ***"
         #print("not normalized",self.beliefs)
         self.beliefs.normalize()
@@ -696,8 +695,55 @@ class ParticleFilter(InferenceModule):
         be reinitialized by calling initializeUniformly. The total method of
         the DiscreteDistribution may be useful.
         """
+        
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        
+        jailPosition = self.getJailPosition()
+        pacmanPosition = gameState.getPacmanPosition()
+        beliefs = DiscreteDistribution()
+        for particle in self.particles:
+            beliefs[particle] += 1
+        beliefs.normalize()
+        print(beliefs)
+        # for pos in self.legalPositions:
+        #     beliefs[pos] = 1
+        #     weight = self.getObservationProb(observation, pacmanPosition, pos, jailPosition)
+        #     beliefs[pos] *= weight
+        # for particle in self.particles:
+        #     weight = self.getObservationProb(observation, pacmanPosition, particle, jailPosition)
+        #     beliefs[particle] *= weight
+        
+        #weight = probability of the observation given pacman, jail, particle
+        #count all positions in particles list, multiply by weight, set bveliefs 
+
+
+
+
+
+        #print("after for loop",beliefs)
+        # weights.normalize()
+        # if(beliefs.total() == 0):
+        #     self.initializeUniformly(gameState)
+        #     return
+        # else:
+        #     newParticles = list()
+        #     for i in range(len(beliefs)):
+        #         newParticles.append(beliefs.sample()) 
+        #     #.normalize()
+        #     self.particles = newParticles
+            #beliefs = self.getBeliefDistribution()
+ 
+        """
+        for position in self.allPositions:
+            #update belief based on sensor reading
+            value = self.getObservationProb(observation, pacmanPosition, position, jailPosition)
+            self.beliefs[position] *= value
+            # print("belief iteration", self.beliefs)
+        """        
+        #if all particles 0 weight, reinitialize list 
+        # else:
+        #     allPossible.normalize()
+        #     self.beliefs = allPossible
         "*** END YOUR CODE HERE ***"
     
     ########### ########### ###########
