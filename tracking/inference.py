@@ -700,32 +700,17 @@ class ParticleFilter(InferenceModule):
         
         jailPosition = self.getJailPosition()
         pacmanPosition = gameState.getPacmanPosition()
-        
-        # for particle in self.particles:
-        #     beliefs[particle] += 1
-        # beliefs.normalize()
-        # print(beliefs)
-        # for pos in self.legalPositions:
-        #     beliefs[pos] = 1
-        #     weight = self.getObservationProb(observation, pacmanPosition, pos, jailPosition)
-        #     beliefs[pos] *= weight
         weightsDistribution = DiscreteDistribution()
         for particle in self.particles:
             weight = self.getObservationProb(observation, pacmanPosition, particle, jailPosition)
             weightsDistribution[particle] += weight
-        
         newParticles = []
         if(weightsDistribution.total() == 0):
             self.initializeUniformly(gameState)
         else:
             for i in range(len(self.particles)):
                 newParticles.append(weightsDistribution.sample()) 
-            #.normalize()
-            # self.particles = newParticles
-            # beliefs = self.getBeliefDistribution()
             self.particles = newParticles
-        #weight = probability of the observation given pacman, jail, particle
-        #count all positions in particles list, multiply by weight, set bveliefs 
 
 
 
@@ -757,5 +742,10 @@ class ParticleFilter(InferenceModule):
         gameState.
         """
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        newParticleLocation = []
+        for oldLocation in self.particles:
+            newPosDist = self.getPositionDistribution(gameState, oldLocation)
+            sample = newPosDist.sample()
+            newParticleLocation.append(sample)
+        self.particles = newParticleLocation
         "*** END YOUR CODE HERE ***"
